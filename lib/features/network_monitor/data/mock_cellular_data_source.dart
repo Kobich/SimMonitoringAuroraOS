@@ -18,4 +18,7 @@ class MockCellularDataSource implements CellularDataSource {
       updatedAt: DateTime.now(),
     );
   }
+
+  @override
+  Stream<CellularSnapshot> watch() => const Stream.empty();
 }

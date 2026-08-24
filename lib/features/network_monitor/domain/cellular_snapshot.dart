@@ -26,4 +26,12 @@ class CellularSnapshot {
   final String? areaCode;
   final String? cellId;
   final int? pci;
+
+  /// Fields whose changes must notify the user. Signal is excluded to avoid spam.
+  bool requiresNotificationComparedTo(CellularSnapshot previous) =>
+      simState != previous.simState ||
+      radioAccess != previous.radioAccess ||
+      operatorName != previous.operatorName ||
+      mcc != previous.mcc ||
+      mnc != previous.mnc;
 }
