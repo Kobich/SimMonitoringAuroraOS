@@ -9,5 +9,6 @@ void main() {
     expect(find.text('Мониторинг SIM'), findsOneWidget);
     expect(find.text('SIM готова'), findsOneWidget);
     expect(find.text('4G / LTE'), findsOneWidget);
+    expect(find.text('Показать тестовое уведомление'), findsOneWidget);
   });
 }

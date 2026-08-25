@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../application/monitoring_dependencies.dart';
 import '../data/cellular_data_source.dart';
 import '../domain/cellular_snapshot.dart';
 
 class NetworkMonitorScreen extends StatefulWidget {
-  const NetworkMonitorScreen({super.key, required this.dataSource});
+  const NetworkMonitorScreen({
+    super.key,
+    required this.dataSource,
+    required this.notificationService,
+  });
 
   final CellularDataSource dataSource;
+  final NetworkNotificationService notificationService;
 
   @override
   State<NetworkMonitorScreen> createState() => _NetworkMonitorScreenState();
@@ -26,6 +32,21 @@ class _NetworkMonitorScreenState extends State<NetworkMonitorScreen> {
     await _snapshot;
   }
 
+  Future<void> _showTestNotification(CellularSnapshot snapshot) async {
+    try {
+      await widget.notificationService.showState(snapshot);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Тестовое уведомление отправлено')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Не удалось отправить уведомление: $error')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Мониторинг SIM')),
@@ -40,6 +61,7 @@ class _NetworkMonitorScreenState extends State<NetworkMonitorScreen> {
             child: Text('Не удалось получить состояние сети: ${state.error}'),
           );
         }
+        final snapshot = state.data!;
         return RefreshIndicator(
           onRefresh: _refresh,
           child: ListView(
@@ -47,9 +69,18 @@ class _NetworkMonitorScreenState extends State<NetworkMonitorScreen> {
             children: [
               const _MockBanner(),
               const SizedBox(height: 16),
-              _StatusCard(snapshot: state.data!),
+              _StatusCard(snapshot: snapshot),
               const SizedBox(height: 16),
-              _DetailsCard(snapshot: state.data!),
+              _DetailsCard(snapshot: snapshot),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => _showTestNotification(snapshot),
+                  icon: const Icon(Icons.notifications_outlined),
+                  label: const Text('Показать тестовое уведомление'),
+                ),
+              ),
             ],
           ),
         );
