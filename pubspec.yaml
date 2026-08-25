@@ -12,7 +12,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  device_info_plus: 12.3.0+2
+  device_info_plus:
+    hosted:
+      name: device_info_plus
+      url: https://sdk-repo.omprussia.ru/sdk/flutter/pub/
+    version: 12.3.0+2
+  device_info_plus_aurora:
+    hosted:
+      name: device_info_plus_aurora
+      url: https://sdk-repo.omprussia.ru/sdk/flutter/pub/
+    version: 1.2.0
+  device_info_plus_platform_interface:
+    hosted:
+      name: device_info_plus_platform_interface
+      url: https://sdk-repo.omprussia.ru/sdk/flutter/pub/
+    version: 7.0.3
 
 dev_dependencies:
   flutter_test:
