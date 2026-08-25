@@ -67,7 +67,7 @@ class _NetworkMonitorScreenState extends State<NetworkMonitorScreen> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              const _MockBanner(),
+              const _OfonoBanner(),
               const SizedBox(height: 16),
               _StatusCard(snapshot: snapshot),
               const SizedBox(height: 16),
@@ -89,8 +89,8 @@ class _NetworkMonitorScreenState extends State<NetworkMonitorScreen> {
   );
 }
 
-class _MockBanner extends StatelessWidget {
-  const _MockBanner();
+class _OfonoBanner extends StatelessWidget {
+  const _OfonoBanner();
 
   @override
   Widget build(BuildContext context) => Card(
@@ -98,7 +98,7 @@ class _MockBanner extends StatelessWidget {
     child: const Padding(
       padding: EdgeInsets.all(12),
       child: Text(
-        'Сейчас показаны mock-данные. Реальный источник SIM будет добавлен после проверки Aurora API на устройстве.',
+        'Данные SIM и сети запрашиваются у системного сервиса oFono через D-Bus.',
       ),
     ),
   );
