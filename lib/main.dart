@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,11 +6,25 @@ import 'package:flutter/material.dart';
 import 'features/network_monitor/data/aurora_ofono_cellular_data_source.dart';
 import 'features/network_monitor/data/cellular_data_source.dart';
 import 'features/network_monitor/platform/aurora_local_notification_service.dart';
+import 'features/network_monitor/platform/aurora_runtime_manager_task_scheduler.dart';
 import 'features/network_monitor/presentation/network_monitor_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  unawaited(_scheduleBackgroundMonitor());
   runApp(const SimMonitorApp());
 }
+
+Future<void> _scheduleBackgroundMonitor() async {
+  try {
+    await AuroraRuntimeManagerTaskScheduler().ensurePeriodicMonitorScheduled();
+  } catch (error, stackTrace) {
+    debugPrint(
+      'Unable to schedule Aurora background monitor: $error\n$stackTrace',
+    );
+  }
+}
+
 /// RuntimeManager starts this top-level entry point in a process without UI.
 ///
 /// It intentionally performs exactly one short monitoring pass. Aurora owns

@@ -20,14 +20,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_SKIP_RPATH OFF)
 set(CMAKE_INSTALL_RPATH "\$ORIGIN/../share/${BINARY_NAME}/lib")
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(RuntimeManager REQUIRED IMPORTED_TARGET runtime-manager-qt5)
-
 add_executable(${BINARY_NAME} main.cpp)
 
 include(flutter/generated_plugins.cmake)
-
-target_link_libraries(${BINARY_NAME} PRIVATE PkgConfig::RuntimeManager)
 
 set(PACKAGE_INSTALL_DIR    ${CMAKE_INSTALL_DATADIR}/${BINARY_NAME})
 set(DESKTOP_INSTALL_DIR    ${CMAKE_INSTALL_DATADIR}/applications)
