@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'features/network_monitor/data/aurora_ofono_cellular_data_source.dart';
@@ -8,6 +10,24 @@ import 'features/network_monitor/presentation/network_monitor_screen.dart';
 void main() {
   runApp(const SimMonitorApp());
 }
+/// RuntimeManager starts this top-level entry point in a process without UI.
+///
+/// It intentionally performs exactly one short monitoring pass. Aurora owns
+/// scheduling and may stop/recreate the process between periodic ticks.
+@pragma('vm:entry-point')
+Future<void> backgroundMain() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    final snapshot = await AuroraOfonoCellularDataSource().readCurrent();
+    await AuroraLocalNotificationService().showState(snapshot);
+    exit(0);
+  } catch (error, stackTrace) {
+    debugPrint('Background SIM monitor task failed: $error\n$stackTrace');
+    exit(1);
+  }
+}
+
 
 class SimMonitorApp extends StatelessWidget {
   const SimMonitorApp({super.key, this.dataSource});

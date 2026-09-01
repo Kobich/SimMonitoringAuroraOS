@@ -1,5 +1,5 @@
 /flutter
-/desktop
-/rpm
-CMakeLists.txt
-main.cpp
+/desktop/*
+!/desktop/ru.networkmonitor.network_monitor.desktop
+/rpm/*
+!/rpm/ru.networkmonitor.network_monitor.spec
