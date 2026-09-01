@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'features/network_monitor/data/aurora_ofono_cellular_data_source.dart';
 import 'features/network_monitor/data/cellular_data_source.dart';
+import 'features/network_monitor/platform/aurora_background_monitor.dart';
 import 'features/network_monitor/platform/aurora_local_notification_service.dart';
 import 'features/network_monitor/presentation/network_monitor_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuroraBackgroundMonitor.initialize();
+  await AuroraBackgroundMonitor().startPeriodicMonitoring();
   runApp(const SimMonitorApp());
 }
 
