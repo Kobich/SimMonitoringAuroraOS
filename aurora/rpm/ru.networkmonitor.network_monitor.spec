@@ -11,7 +11,6 @@ License: %{license}
 Source0: %{name}-%{version}.tar.zst
 
 %requires
-BuildRequires: pkgconfig(runtime-manager-qt5)
 %dnl Place to add custom BuildRequires.
 
 %description
