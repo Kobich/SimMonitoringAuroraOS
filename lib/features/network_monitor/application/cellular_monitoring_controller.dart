@@ -11,10 +11,10 @@ class CellularMonitoringController {
     required MonitoringSettingsRepository settings,
     required LastSnapshotRepository snapshots,
     required NetworkNotificationService notifications,
-  })  : _dataSource = dataSource,
-        _settings = settings,
-        _snapshots = snapshots,
-        _notifications = notifications;
+  }) : _dataSource = dataSource,
+       _settings = settings,
+       _snapshots = snapshots,
+       _notifications = notifications;
 
   final CellularDataSource _dataSource;
   final MonitoringSettingsRepository _settings;
@@ -28,7 +28,19 @@ class CellularMonitoringController {
     final initial = await _dataSource.readCurrent();
     await _snapshots.save(initial);
     await _notifications.showState(initial);
-    _subscription = _dataSource.watch().listen(_onSnapshot, onError: _onSourceError);
+    _subscription = _dataSource.watch().listen(
+      _onSnapshot,
+      onError: _onSourceError,
+    );
+  }
+
+  /// Performs one real oFono query for a background Workmanager invocation.
+  ///
+  /// The first result is notified; later results are notified only if the
+  /// meaningful network or SIM state changed.
+  Future<void> checkOnce() async {
+    if (!await _settings.isEnabled()) return;
+    await _processSnapshot(await _dataSource.readCurrent());
   }
 
   Future<void> restoreIfEnabled() async {
@@ -41,7 +53,10 @@ class CellularMonitoringController {
     await _settings.setEnabled(false);
   }
 
-  Future<void> _onSnapshot(CellularSnapshot current) async {
+  Future<void> _onSnapshot(CellularSnapshot current) =>
+      _processSnapshot(current);
+
+  Future<void> _processSnapshot(CellularSnapshot current) async {
     final previous = await _snapshots.read();
     if (previous == null || current.requiresNotificationComparedTo(previous)) {
       await _notifications.showState(current);

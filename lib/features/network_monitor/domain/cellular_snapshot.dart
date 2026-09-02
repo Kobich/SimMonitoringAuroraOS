@@ -33,5 +33,8 @@ class CellularSnapshot {
       radioAccess != previous.radioAccess ||
       operatorName != previous.operatorName ||
       mcc != previous.mcc ||
-      mnc != previous.mnc;
+      mnc != previous.mnc ||
+      areaCode != previous.areaCode ||
+      cellId != previous.cellId ||
+      pci != previous.pci;
 }

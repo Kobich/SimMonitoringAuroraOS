@@ -28,6 +28,10 @@ dependencies:
     hosted:
       name: flutter_local_notifications
       url: https://sdk-repo.omprussia.ru/sdk/flutter/pub/
+  workmanager:
+    hosted:
+      name: workmanager
+      url: https://sdk-repo.omprussia.ru/sdk/flutter/pub/
   dbus:
     hosted:
       name: dbus
