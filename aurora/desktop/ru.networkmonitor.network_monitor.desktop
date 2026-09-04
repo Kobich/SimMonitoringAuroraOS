@@ -11,7 +11,7 @@ Permissions=UserDirs
 OrganizationName=ru.networkmonitor
 ApplicationName=network_monitor
 
-# The official Workmanager plugin registers this periodic RuntimeManager task.
+# RuntimeManager starts a short headless process for each periodic check.
 [X-Task SimMonitorPeriodic]
 Type=periodic
 Permissions=UserDirs

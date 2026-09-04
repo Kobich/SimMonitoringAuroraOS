@@ -20,7 +20,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_SKIP_RPATH OFF)
 set(CMAKE_INSTALL_RPATH "\$ORIGIN/../share/${BINARY_NAME}/lib")
 
-# The official Aurora Workmanager plugin uses Qt/RuntimeManager internally.
+# Qt Core is required by the Aurora Flutter launcher.
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
 add_executable(${BINARY_NAME} main.cpp)
